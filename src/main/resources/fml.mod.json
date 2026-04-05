@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "${id}",
+  "id": "more-metal-pieces",
   "version": "${version}",
   "depends": {
     "fishmodloader": "*",
@@ -8,7 +8,7 @@
     "moremetals": ">=1.2.0"
   },
   "environment": "*",
-  "name": "${name}",
+  "name": "More-Metal-Pieces",
   "description": "",
   "icon": "icon.png",
   "authors": [

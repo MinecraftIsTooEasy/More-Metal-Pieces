@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "depends": {
+    "fishmodloader": "*",
+    "mite-itf-reborn": ">=17.2.25",
+    "moremetals": ">=1.2.0"
+  },
+  "environment": "*",
+  "name": "${name}",
+  "description": "",
+  "icon": "icon.png",
+  "authors": [
+    "Debris"
+  ],
+  "entrypoints": {
+    "main": [
+      "moddedmite.moremetalpieces.MoreMetalPieces"
+    ],
+    "modmenu": [
+      "moddedmite.moremetalpieces.integration.ModMenuImpl"
+    ],
+    "itf-reborn": [
+      "moddedmite.moremetalpieces.integration.ITFPluginImpl"
+    ]
+  },
+  "mixins": [
+    "moremetalpieces.mixins.json"
+  ],
+  "accessWidener": "moremetalpieces.accesswidener"
+}

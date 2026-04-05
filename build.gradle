@@ -1,0 +1,129 @@
+plugins {
+    id 'fml-loom' version '0.1'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "Spongepowered"
+        url = "https://repo.spongepowered.org/repository/maven-public/"
+    }
+    maven {
+        name = 'ModdedMITE'
+        url = 'https://maven.limingzxc.top/repository/maven-public/'
+    }
+}
+
+configurations {
+    fml
+}
+
+tasks.named('runClient', JavaExec).configure { exec ->
+    exec.setArgs(['--username', project.property('username'), '--session', '0', '--width', '854', '--height', '480'])
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    fml "com.github.MinecraftIsTooEasy:FishModLoader:3.4.2"
+    implementation "com.github.MinecraftIsTooEasy:FishModLoader:3.4.2"
+
+    // anyway needed
+    implementation "com.github.MinecraftIsTooEasy:Gson:2.10.1"
+    implementation "com.github.MinecraftIsTooEasy:Conditional-Mixin:0.6.4"
+
+    // dependency
+    implementation "com.github.MinecraftIsTooEasy:ManyLib:2.3.0"
+    implementation "com.github.MinecraftIsTooEasy:RustedIronCore:1.5.0"
+    implementation "com.github.MinecraftIsTooEasy:MITE-ITF-Reborn:17.2.25"
+//    implementation "com.github.MinecraftIsTooEasy:MoreMetals:1.1.0"
+    implementation files("${project.lib_dir}MoreMetals-1.2.0.jar")
+    implementation files("${project.lib_dir}MoreMetals-1.2.0-sources.jar")
+
+    // compile only
+    implementation "com.github.MinecraftIsTooEasy:ModMenu:10.1.1"
+
+    // optional
+    implementation "com.github.MinecraftIsTooEasy:ModernMITE:3.7.1"
+    implementation "com.github.MinecraftIsTooEasy:OMMC:1.4.2"
+    implementation "com.github.MinecraftIsTooEasy:Neodymium:1.1.1"
+}
+
+def fmlResolvedFile = configurations.fml.files.iterator().next()
+
+loom {
+    accessWidenerPath = file("src/main/resources/${access_widener_name}")
+    mergedMinecraftJar()
+    setFML(fmlResolvedFile)
+    mods {
+        "${archives_base_name}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies.add("mappings", loom.fmlMCPMappings())
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "id", project.property('mod_id')
+    inputs.property "name", project.property('archives_base_name')
+
+    filesMatching("fml.mod.json") {
+        expand([
+                version: project.version,
+                id     : project.property('mod_id'),
+                name   : project.property('archives_base_name')
+        ])
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    inputs.property "archivesName", project.archives_base_name
+
+    from("LICENSE") {
+        rename { "${it}_${inputs.properties.archivesName}" }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        maven {
+            name = "ModdedMITE"
+            url = uri("https://maven.limingzxc.top/repository/maven-releases/")
+            credentials {
+                // Read only from gradle.properties (user level, your gradle_home)
+                username = project.findProperty("nexusUsername")
+                password = project.findProperty("nexusPassword")
+            }
+        }
+    }
+}

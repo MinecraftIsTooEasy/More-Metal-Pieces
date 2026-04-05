@@ -1,0 +1,9 @@
+item.tin_pieces.name=锡矿石碎块
+item.manganese_pieces.name=锰矿石碎块
+item.midas_gold_pieces.name=迈达斯金矿石碎块
+item.platinum_pieces.name=铂金矿石碎块
+item.adamantium_pieces.name=精金矿石碎块
+item.aluminium_pieces.name=铝矿石碎块
+item.titanium_pieces.name=钛矿石碎块
+
+itemGroup.moremetalpieces.item=更多金属碎块:物品

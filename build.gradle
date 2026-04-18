@@ -26,9 +26,9 @@ configurations {
     fml
 }
 
-tasks.named('runClient', JavaExec).configure { exec ->
+/*tasks.named('runClient', JavaExec).configure { exec ->
     exec.setArgs(['--username', project.property('username'), '--session', '0', '--width', '854', '--height', '480'])
-}
+}*/
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -43,11 +43,9 @@ dependencies {
 
     // dependency
     implementation "com.github.MinecraftIsTooEasy:ManyLib:2.3.0"
-    implementation "com.github.MinecraftIsTooEasy:RustedIronCore:1.5.0"
+    implementation "com.github.MinecraftIsTooEasy:RustedIronCore:1.5.2"
     implementation "com.github.MinecraftIsTooEasy:MITE-ITF-Reborn:17.2.25"
-//    implementation "com.github.MinecraftIsTooEasy:MoreMetals:1.1.0"
-    implementation files("${project.lib_dir}MoreMetals-1.2.0.jar")
-    implementation files("${project.lib_dir}MoreMetals-1.2.0-sources.jar")
+    implementation files("${project.lib_dir}/MoreMetals-1.2.2.jar")
 
     // compile only
     implementation "com.github.MinecraftIsTooEasy:ModMenu:10.1.1"
